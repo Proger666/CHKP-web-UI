@@ -1,0 +1,13 @@
+{{extend 'layout.html'}}
+
+<h1>Welcome to my new app</h1>
+<button type="submit" onclick="do_get_gateways()">Get GW</button>
+
+<script>
+    function do_get_gateways() {
+        var item = document.getElementById("MGMT_IP");
+        var DTO = {"mgmt_ip": mgmt_ip};
+        send_to_beck('/CHKP_WEB_UI/Gateways_actions/get_gateways', DTO)
+    }
+
+</script>
