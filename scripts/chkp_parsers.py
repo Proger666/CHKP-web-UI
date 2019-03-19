@@ -22,6 +22,7 @@ class SimpleGatewayObject:
     def __str__(self):
         return self.name
 
+
 def gateways_list(gw):
     simple_gw_list = []
     for gw in gw['objects']:
