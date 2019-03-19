@@ -25,16 +25,16 @@ def api_call(management_data, command, json_payload):
 
 
 def custom_command(management_data, command, **kwargs):
-    result = api_call(management_data, command, **kwargs)
-    print("Custom commang result: " + json.dumps(result))
-    return 0
+    result = api_call(management_data, command, kwargs)
+    print('Custom commang result: ' + json.dumps(result))
+    return result
 
 
-def create_host(management_data, name, host_ip, **kwargs):
+def create_host(management_data, name, host_ip, kwargs):
     payload = {'name': name, 'ip-address': host_ip, **kwargs}
     result = api_call(management_data, 'add-host', payload)
     # time.sleep(2)
-    print("Create host result: " + json.dumps(result))
+    print('Create host result: ' + json.dumps(result))
     return 0
 
 
@@ -42,27 +42,34 @@ def create_network_object(management_data, name, subnet, mask_length, **kwargs):
     payload = {'name': name, 'subnet': subnet, 'mask-length': mask_length, **kwargs}
     result = api_call(management_data, 'add-network', payload)
     # time.sleep(2)
-    print("Create network result: " + json.dumps(result))
+    print('Create network result: ' + json.dumps(result))
     return 0
 
 
 def publish(management_data):
-    result = api_call(management_data, "publish", {})
-    print("Publish result: " + json.dumps(result))
+    result = api_call(management_data, 'publish', {})
+    time.sleep(5)
+    print('Publish result: ' + json.dumps(result))
     return 0
 
 
-def logout(management_data):
-    time.sleep(5)
-    result = api_call(management_data, "logout", {})
-    print("Logout result: " + json.dumps(result))
+def discard(management_data, session_uid):
+    payload = {'uid': session_uid}
+    result = api_call(management_data, 'discard', payload)
+    print('Discards result: ' + json.dumps(result))
+    return 0
+
+
+def logout(management_data, **kwargs):
+    result = api_call(management_data, 'logout', kwargs)
+    print('Logout result: ' + json.dumps(result))
     return 0
 
 
 def login(management_data, user, password):
     payload = {'user': user, 'password': password}
     response = api_call(management_data, 'login', payload)
-    return response["sid"]
+    return response['sid']
 
 
 def main():
@@ -74,9 +81,7 @@ def main():
     management_data = [management_ip, management_port, sid]
     sid = login(management_data, username, secret)
     management_data = [management_ip, management_port, sid]
-    print("Management server data: " + ' '.join(management_data))
-
-
+    print('Management server data: ' + ' '.join(management_data))
 
     logout(management_data)
     sys.exit(0)
