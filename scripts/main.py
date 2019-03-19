@@ -1,10 +1,8 @@
 #!/usr/local/bin/python3
 
-import requests
-import json
+
 import sys
-import time
-import basic_calls
+import basic_calls as bc
 
 
 def main():
@@ -14,13 +12,12 @@ def main():
     username = 'admin'
     secret = '123qweASD'
     management_data = [management_ip, management_port, sid]
-    sid = login(management_data, username, secret)
+    sid = bc.login(management_data, username, secret)
     management_data = [management_ip, management_port, sid]
     print('Management server data: ' + ' '.join(management_data))
 
-    test = custom_command
 
-    logout(management_data)
+    bc.logout(management_data)
     sys.exit(0)
 
 

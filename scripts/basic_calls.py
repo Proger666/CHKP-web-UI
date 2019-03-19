@@ -2,7 +2,6 @@
 
 import requests
 import json
-import sys
 import time
 
 
@@ -66,8 +65,8 @@ def discard(management_data, session_uid):
     return 0
 
 
-def logout(management_data, **kwargs):
-    result = api_call(management_data, 'logout', kwargs)
+def logout(management_data):
+    result = api_call(management_data, 'logout')
     print('Logout result: ' + json.dumps(result))
     return 0
 
