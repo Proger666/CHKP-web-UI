@@ -30,6 +30,12 @@ def custom_command(management_data, command, **kwargs):
     return result
 
 
+def get_gateways(management_data):
+    payload = {'details-level': 'full'}
+    result = api_call(management_data, 'show-gateways-and-servers', payload)
+    return result
+
+
 def create_host_object(management_data, name, host_ip, kwargs):
     payload = {'name': name, 'ip-address': host_ip, **kwargs}
     result = api_call(management_data, 'add-host', payload)
@@ -82,6 +88,8 @@ def main():
     sid = login(management_data, username, secret)
     management_data = [management_ip, management_port, sid]
     print('Management server data: ' + ' '.join(management_data))
+
+    test = custom_command
 
     logout(management_data)
     sys.exit(0)
