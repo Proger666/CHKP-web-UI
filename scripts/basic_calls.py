@@ -29,7 +29,7 @@ def custom_command(management_data, command, **kwargs):
     return result
 
 
-def get_gateways(management_data):
+def get_all_gateways(management_data):
     payload = {'details-level': 'full'}
     result = api_call(management_data, 'show-gateways-and-servers', payload)
     return result
@@ -66,7 +66,7 @@ def discard(management_data, session_uid):
 
 
 def logout(management_data):
-    result = api_call(management_data, 'logout')
+    result = api_call(management_data, 'logout', {})
     print('Logout result: ' + json.dumps(result))
     return 0
 
