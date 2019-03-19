@@ -30,7 +30,7 @@ def custom_command(management_data, command, **kwargs):
     return result
 
 
-def create_host(management_data, name, host_ip, kwargs):
+def create_host_object(management_data, name, host_ip, kwargs):
     payload = {'name': name, 'ip-address': host_ip, **kwargs}
     result = api_call(management_data, 'add-host', payload)
     # time.sleep(2)
