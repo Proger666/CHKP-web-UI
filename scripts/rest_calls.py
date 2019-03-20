@@ -1,6 +1,7 @@
 import basic_calls as bc
 import chkp_parsers as pars
 import json
+import sys
 
 
 def show_gateways(mgmt_json):
@@ -9,12 +10,14 @@ def show_gateways(mgmt_json):
 
 def get_sid(mgmt_json_no_sid):
     mgmt_json_no_sid = json.loads(mgmt_json_no_sid)
-    if (mgmt_json_no_sid['username'] and mgmt_json_no_sid['password']) != ('' or None):
-        username = mgmt_json_no_sid['username']
-        secret = mgmt_json_no_sid['password']
-        return json.dumps(bc.login(mgmt_json_no_sid, username, secret))[1:-1]
-    else:
-        return 'error'
+    try:
+        if (mgmt_json_no_sid['username'] and mgmt_json_no_sid['password']) != '':
+            username = mgmt_json_no_sid['username']
+            secret = mgmt_json_no_sid['password']
+            return json.dumps(bc.login(mgmt_json_no_sid, username, secret))[1:-1]
+    except KeyError:
+        print("Not enough arguments")
+        sys.exit(0)
 
 def main():
     management_ip = '172.16.198.129'
@@ -23,7 +26,7 @@ def main():
     username = 'admin'
     secret = '123qweASD'
     management_data = json.dumps({'mgmt_ip': management_ip, 'mgmt_port': management_port, 'sid': sid,
-                                  'username': username, 'password': secret})
+                                  'username': username})
     sid = get_sid(management_data)
     print(sid)
     management_data = json.loads(management_data)
