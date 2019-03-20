@@ -1,4 +1,6 @@
 
+import json
+
 class SimpleGatewayObject:
     def __init__(self, gateway):
         self.uid = gateway['uid']
@@ -47,3 +49,20 @@ def get_simple_gateways_list(gw):
         if gw['type'] == 'simple-gateway':
             simple_gw_list.append(SimpleGatewayObject(gw))
     return simple_gw_list
+
+
+def return_error(error):
+    return json.dumps({'error': error})
+
+
+def check_if_data_exist(data, *args):
+    if type(data) == str:
+        data = json.loads(data)
+
+    for arg in args:
+        try:
+            data[arg]
+        except KeyError:
+            print("Not enough arguments")
+            return False
+    return True
