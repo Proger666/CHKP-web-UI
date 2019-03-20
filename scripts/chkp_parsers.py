@@ -56,13 +56,30 @@ def return_error(error):
     return json.dumps({'error': error})
 
 
+def check_result(result, command, **kwargs):
+    argument = kwargs.get('argument', None)
+    get_sid = kwargs.get('get_sid', None)
+
+    if result['status_code'] == '200' and argument is not None:
+        return command(argument)
+
+    elif result['status_code'] == '200' and get_sid is not None:
+        return command({'sid': result['sid']})
+
+    elif result['status_code'] == '200':
+        return command(result)
+
+    else:
+        return return_error(' '.join([descr for descr in result.values()]))
+
+
 def check_if_data_exist(data, *args):
     if type(data) == str:
         data = json.loads(data)
 
     for arg in args:
         try:
-            data[arg]
+            data[arg] != ''
         except KeyError:
             print("Not enough arguments")
             return False

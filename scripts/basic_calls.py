@@ -31,7 +31,6 @@ def get_all_gateways(management_data):
     return api_call(management_data, 'show-gateways-and-servers', payload)
 
 
-
 def create_host_object(management_data, name, host_ip, kwargs):
     payload = {'name': name, 'ip-address': host_ip, **kwargs}
     return json.dumps(api_call(management_data, 'add-host', payload))
@@ -40,7 +39,6 @@ def create_host_object(management_data, name, host_ip, kwargs):
 def create_network_object(management_data, name, subnet, mask_length, **kwargs):
     payload = {'name': name, 'subnet': subnet, 'mask-length': mask_length, **kwargs}
     return json.dumps(api_call(management_data, 'add-network', payload))
-
 
 
 def publish(management_data):
@@ -55,8 +53,7 @@ def discard(management_data, session_uid):
 
 
 def logout(management_data):
-    result = api_call(management_data, 'logout', {})
-    return json.dumps(result)
+    return json.dumps(api_call(management_data, 'logout', {}))
 
 
 def login(management_data, user, password):
