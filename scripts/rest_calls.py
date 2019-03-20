@@ -21,10 +21,13 @@ def get_sid(mgmt_json_no_sid):
         return pars.return_error('not enough arguments')
 
     mgmt_json_no_sid = json.loads(mgmt_json_no_sid)
+
     if (mgmt_json_no_sid['username'] and mgmt_json_no_sid['password']) != '':
         username = mgmt_json_no_sid['username']
         secret = mgmt_json_no_sid['password']
-    return json.dumps({'sid': bc.login(mgmt_json_no_sid, username, secret)})
+    result = bc.login(mgmt_json_no_sid, username, secret)
+
+    return json.dumps({'sid': result})
 
 
 def main():
@@ -38,8 +41,10 @@ def main():
                             'password': secret})
 
     management_data['sid'] = json.loads(get_sid(mgmt_json))['sid']
+
     print("Logged in")
-    print(show_gateways(mgmt_json))
+
+    print(show_gateways(json.dumps(management_data)))
 
     #gws = json.loads(show_gateways(management_data))
     #print(gws)

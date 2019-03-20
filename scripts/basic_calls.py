@@ -3,6 +3,7 @@
 import requests
 import json
 import time
+import chkp_parsers as pars
 
 
 def api_call(management_data, command, json_payload):
@@ -15,9 +16,10 @@ def api_call(management_data, command, json_payload):
         request_headers = {'Content-Type': 'application/json', 'X-chkp-sid': management_data['sid']}
     session = requests.Session()
     session.verify = False
-    r = session.post(url, data=json.dumps(json_payload), headers=request_headers)
-
-    return r.json()
+    result = session.post(url, data=json.dumps(json_payload), headers=request_headers)
+    r = result.json()
+    r['status_code'] = str(result.status_code)
+    return r
 
 
 def custom_command(management_data, command, **kwargs):
@@ -72,5 +74,8 @@ def logout(management_data):
 def login(management_data, user, password):
     payload = {'user': user, 'password': password}
     response = api_call(management_data, 'login', payload)
-    return response['sid']
+    if response['status_code'] == '200':
+        return response['sid']
+    else:
+        return pars.return_error(' '.join(response))
 
