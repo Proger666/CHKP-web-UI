@@ -6,16 +6,13 @@ import time
 
 
 def api_call(management_data, command, json_payload):
-    management_ip = management_data[0]
-    management_port = management_data[1]
-    sid = management_data[2]
 
-    url = 'https://' + management_ip + ':' + management_port + '/web_api/v1.1/' + command
+    url = 'https://' + management_data['mgmt_ip'] + ':' + management_data['mgmt_port'] + '/web_api/v1.1/' + command
     requests.packages.urllib3.disable_warnings()
-    if sid == '':
+    if management_data['sid'] == '':
         request_headers = {'Content-Type': 'application/json'}
     else:
-        request_headers = {'Content-Type': 'application/json', 'X-chkp-sid': sid}
+        request_headers = {'Content-Type': 'application/json', 'X-chkp-sid': management_data['sid']}
     session = requests.Session()
     session.verify = False
     r = session.post(url, data=json.dumps(json_payload), headers=request_headers)
