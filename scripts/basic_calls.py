@@ -25,6 +25,7 @@ def api_call(management_data, command, json_payload):
 
 def custom_command(management_data, command, **kwargs):
     result = api_call(management_data, command, kwargs)
+    parsed_result = json.dumps(result)
     print('Custom commang result: ' + json.dumps(result))
     return result
 

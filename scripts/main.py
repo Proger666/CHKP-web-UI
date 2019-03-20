@@ -17,9 +17,11 @@ def main():
     management_data = [management_ip, management_port, sid]
     print('Management server data: ' + ' '.join(management_data))
 
-    gw_list = pars.gateways_list(bc.get_all_gateways(management_data))
+    bc.custom_command(management_data, 'show-gateways-and-servers', **{'details-level': 'full'})
+
+    '''gw_list = pars.gateways_list(bc.get_all_gateways(management_data))
     for gw in gw_list:
-        print(gw.uid)
+        print(gw.uid)'''
 
     bc.logout(management_data)
     sys.exit(0)

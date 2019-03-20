@@ -23,7 +23,25 @@ class SimpleGatewayObject:
         return self.name
 
 
-def gateways_list(gw):
+def rest_get_all_gateways(gateways):
+    simple_gateways = []
+    cluster_members = []
+    clusters = []
+    management = []
+    for gw in gateways['objects']:
+        if gw['type'] == 'simple-gateway':
+            simple_gateways.append(gw)
+        elif gw['type'] == 'CpmiGatewayCluster':
+            clusters.append(gw)
+        elif gw['type'] == 'CpmiClusterMember':
+            cluster_members.append(gw)
+        elif gw['type'] == 'CpmiHostCkp':
+            management.append(gw)
+    gw_dict = {'gateways': simple_gateways, 'clusters': clusters, 'cluster_members': cluster_members, 'mgmt': management}
+    return gw_dict
+
+
+def get_simple_gateways_list(gw):
     simple_gw_list = []
     for gw in gw['objects']:
         if gw['type'] == 'simple-gateway':
