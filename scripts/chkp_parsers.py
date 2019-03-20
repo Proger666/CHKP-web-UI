@@ -1,6 +1,7 @@
 
 import json
 
+
 class SimpleGatewayObject:
     def __init__(self, gateway):
         self.uid = gateway['uid']

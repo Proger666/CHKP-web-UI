@@ -23,59 +23,43 @@ def api_call(management_data, command, json_payload):
 
 
 def custom_command(management_data, command, **kwargs):
-    result = api_call(management_data, command, kwargs)
-    parsed_result = json.dumps(result)
-    print('Custom commang result: ' + json.dumps(result))
-    return result
+    return api_call(management_data, command, kwargs)
 
 
 def get_all_gateways(management_data):
     payload = {'details-level': 'full'}
-    result = api_call(management_data, 'show-gateways-and-servers', payload)
-    return result
+    return api_call(management_data, 'show-gateways-and-servers', payload)
+
 
 
 def create_host_object(management_data, name, host_ip, kwargs):
     payload = {'name': name, 'ip-address': host_ip, **kwargs}
-    result = api_call(management_data, 'add-host', payload)
-    # time.sleep(2)
-    print('Create host result: ' + json.dumps(result))
-    return 0
+    return json.dumps(api_call(management_data, 'add-host', payload))
 
 
 def create_network_object(management_data, name, subnet, mask_length, **kwargs):
     payload = {'name': name, 'subnet': subnet, 'mask-length': mask_length, **kwargs}
-    result = api_call(management_data, 'add-network', payload)
-    # time.sleep(2)
-    print('Create network result: ' + json.dumps(result))
-    return 0
+    return json.dumps(api_call(management_data, 'add-network', payload))
+
 
 
 def publish(management_data):
     result = api_call(management_data, 'publish', {})
     time.sleep(5)
-    print('Publish result: ' + json.dumps(result))
-    return 0
+    return json.dumps(result)
 
 
 def discard(management_data, session_uid):
     payload = {'uid': session_uid}
-    result = api_call(management_data, 'discard', payload)
-    print('Discards result: ' + json.dumps(result))
-    return 0
+    return json.dumps(api_call(management_data, 'discard', payload))
 
 
 def logout(management_data):
     result = api_call(management_data, 'logout', {})
-    print('Logout result: ' + json.dumps(result))
-    return 0
+    return json.dumps(result)
 
 
 def login(management_data, user, password):
     payload = {'user': user, 'password': password}
-    response = api_call(management_data, 'login', payload)
-    if response['status_code'] == '200':
-        return response['sid']
-    else:
-        return pars.return_error(' '.join(response))
+    return api_call(management_data, 'login', payload)
 

@@ -16,18 +16,17 @@ def show_gateways(mgmt_json):
         return pars.return_error('no sid')
 
 
-def get_sid(mgmt_json_no_sid):
+def get_sid(mgmt_json_no_sid): # Feed it with json contains
     if not pars.check_if_data_exist(mgmt_json_no_sid, 'mgmt_ip', 'mgmt_port',  'sid', 'username', 'password'):
         return pars.return_error('not enough arguments')
 
     mgmt_json_no_sid = json.loads(mgmt_json_no_sid)
+    result = bc.login(mgmt_json_no_sid, mgmt_json_no_sid['username'], mgmt_json_no_sid['password'])
 
-    if (mgmt_json_no_sid['username'] and mgmt_json_no_sid['password']) != '':
-        username = mgmt_json_no_sid['username']
-        secret = mgmt_json_no_sid['password']
-    result = bc.login(mgmt_json_no_sid, username, secret)
-
-    return json.dumps({'sid': result})
+    if result['status_code'] == '200':
+        return json.dumps({'sid': result['sid']})
+    else:
+        return pars.return_error(' '.join([thing for thing in result.values()]))
 
 
 def main():
@@ -40,8 +39,13 @@ def main():
     mgmt_json = json.dumps({'mgmt_ip': management_ip, 'mgmt_port': management_port, 'sid': sid, 'username': username,
                             'password': secret})
 
-    management_data['sid'] = json.loads(get_sid(mgmt_json))['sid']
+    login_result = json.loads(get_sid(mgmt_json))
 
+    try:
+        management_data['sid'] = login_result['sid']
+    except KeyError:
+        print(login_result)
+        sys.exit(0)
     print("Logged in")
 
     print(show_gateways(json.dumps(management_data)))
@@ -49,7 +53,7 @@ def main():
     #gws = json.loads(show_gateways(management_data))
     #print(gws)
 
-    bc.logout(management_data)
+    print(bc.logout(management_data))
 
     return 0
 
