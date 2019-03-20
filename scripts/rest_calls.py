@@ -14,10 +14,11 @@ def get_sid(mgmt_json_no_sid):
         if (mgmt_json_no_sid['username'] and mgmt_json_no_sid['password']) != '':
             username = mgmt_json_no_sid['username']
             secret = mgmt_json_no_sid['password']
-            return json.dumps(bc.login(mgmt_json_no_sid, username, secret))[1:-1]
+            return json.dumps({'sid': bc.login(mgmt_json_no_sid, username, secret)})
     except KeyError:
         print("Not enough arguments")
         sys.exit(0)
+
 
 def main():
     management_ip = '172.16.198.129'
@@ -25,14 +26,13 @@ def main():
     sid = ''
     username = 'admin'
     secret = '123qweASD'
-    management_data = json.dumps({'mgmt_ip': management_ip, 'mgmt_port': management_port, 'sid': sid,
-                                  'username': username})
-    sid = get_sid(management_data)
+    management_data = {'mgmt_ip': management_ip, 'mgmt_port': management_port, 'sid': ''}
+    mgmt_json = json.dumps({'mgmt_ip': management_ip, 'mgmt_port': management_port, 'sid': sid, 'username': username,
+                            'password': secret})
+    sid = json.loads(get_sid(mgmt_json))
     print(sid)
-    management_data = json.loads(management_data)
-    management_data['sid'] = sid
-    del management_data['username']
-    del management_data['password']
+
+    management_data['sid'] = sid['sid']
 
     gws = json.loads(show_gateways(management_data))
     print(gws)
