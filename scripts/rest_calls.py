@@ -24,12 +24,12 @@ def get_sid(mgmt_json_no_sid):  # Feed it with json contains mgmt_ip , mgmt_port
     # As a result you will get json with sid or json with 'error' and description
 
 
-def main():
+'''def main():
     management_ip = '172.16.198.129'
     management_port = '443'
     sid = ''
     username = 'admin'
-    secret = '123qweASDa'
+    secret = '123qweASD'
     management_data = {'mgmt_ip': management_ip, 'mgmt_port': management_port, 'sid': ''}
     mgmt_json = json.dumps({'mgmt_ip': management_ip, 'mgmt_port': management_port, 'sid': sid, 'username': username,
                             'password': secret})
@@ -54,4 +54,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main()'''
