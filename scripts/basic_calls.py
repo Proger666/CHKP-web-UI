@@ -59,4 +59,3 @@ def logout(management_data):
 def login(management_data, user, password):
     payload = {'user': user, 'password': password}
     return api_call(management_data, 'login', payload)
-
