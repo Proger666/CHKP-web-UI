@@ -6,14 +6,41 @@ import time
 import chkp_parsers as pars
 
 
-def api_call(management_data, command, json_payload):
+class MGMTServer:
+    def __init__(self, ip, username, password,port=443, ver=1.1, sid=''):
+        '''Create only one MGMT Object '''
+        self.val = None
 
-    url = 'https://' + management_data['mgmt_ip'] + ':' + management_data['mgmt_port'] + '/web_api/v1.1/' + command
+        self.ip = ip,
+        self.port = port,
+        self.ver = ver
+        self.sid = sid
+        self.username = username
+        self.password = password
+
+    def __str__(self):
+        return repr(self) + self.val
+
+    instance = None
+
+    def __new__(cls, **kwargs):  # __new__ always a classmethod
+        if not MGMTServer.instance:
+            MGMTServer.instance = MGMTServer.__OnlyOne(**kwargs)
+        return MGMTServer.instance
+
+    def __getattr__(self, name):
+        return getattr(self.instance, name)
+
+    def __setattr__(self, name, **kwargs):
+        return setattr(self.instance, name, **kwargs)
+
+def api_call(management_data, command, json_payload):
+    url = 'https://' + management_data.ip + ':' + management_data.port + '/web_api/{}'.format(management_data.ver) + command
     requests.packages.urllib3.disable_warnings()
-    if management_data['sid'] == '':
+    if management_data.sid == '':
         request_headers = {'Content-Type': 'application/json'}
     else:
-        request_headers = {'Content-Type': 'application/json', 'X-chkp-sid': management_data['sid']}
+        request_headers = {'Content-Type': 'application/json', 'X-chkp-sid': management_data.sid}
     session = requests.Session()
     session.verify = False
     result = session.post(url, data=json.dumps(json_payload), headers=request_headers)
@@ -56,6 +83,6 @@ def logout(management_data):
     return json.dumps(api_call(management_data, 'logout', {}))
 
 
-def login(management_data, user, password):
-    payload = {'user': user, 'password': password}
-    return api_call(management_data, 'login', payload)
+def login(management_obj):
+    payload = {'user': management_obj.username, 'password': management_obj.password}
+    return api_call(management_obj, 'login', payload)
