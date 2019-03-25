@@ -31,6 +31,16 @@ def get_all_gateways(management_data):
     return api_call(management_data, 'show-gateways-and-servers', payload)
 
 
+def get_access_rulebase(management_data, layer):
+    payload = {'name': layer, 'details-level': 'full'}
+    return api_call(management_data, 'show-access-rulebase', payload)
+
+
+def get_access_layers(management_data):
+    payload = {'details-level': 'full'}
+    return api_call(management_data, 'show-access-layers', payload)
+
+
 def create_host_object(management_data, name, host_ip, kwargs):
     payload = {'name': name, 'ip-address': host_ip, **kwargs}
     return json.dumps(api_call(management_data, 'add-host', payload))

@@ -24,7 +24,8 @@ def get_sid(mgmt_json_no_sid):  # Feed it with json contains mgmt_ip , mgmt_port
     # As a result you will get json with sid or json with 'error' and description
 
 
-'''def main():
+
+def main():
     management_ip = '172.16.198.129'
     management_port = '443'
     sid = ''
@@ -43,8 +44,9 @@ def get_sid(mgmt_json_no_sid):  # Feed it with json contains mgmt_ip , mgmt_port
         sys.exit(0)
     print("Logged in")
 
-    print(show_gateways(json.dumps(management_data)))
-
+    show = bc.get_access_rulebase(management_data)
+    print(show)
+    #print(show_gateways(json.dumps(management_data)))
     #gws = json.loads(show_gateways(management_data))
     #print(gws)
 
@@ -54,4 +56,4 @@ def get_sid(mgmt_json_no_sid):  # Feed it with json contains mgmt_ip , mgmt_port
 
 
 if __name__ == '__main__':
-    main()'''
+    main()
