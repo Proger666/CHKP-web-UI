@@ -78,9 +78,9 @@ def check_if_data_exist(data, *args):
         data = json.loads(data)
 
     for arg in args:
-        try:
-            data[arg] != ''
-        except KeyError:
+        if data.get(arg) != '' and data.get(arg) is not None:
+            continue
+        else:
             print("Not enough arguments")
             return False
     return True

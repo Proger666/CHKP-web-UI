@@ -14,7 +14,7 @@ def show_gateways(mgmt_json):  # Feed it with json contains mgmt_ip , mgmt_port,
 
 
 def get_sid(mgmt_json_no_sid):  # Feed it with json contains mgmt_ip , mgmt_port, user and password.
-    if not pars.check_if_data_exist(mgmt_json_no_sid, 'mgmt_ip', 'mgmt_port', 'username', 'password'):
+    if not pars.check_if_data_exist(mgmt_json_no_sid, 'mgmt_ip', 'mgmt_port', 'username', 'password', 'sid'):
         return pars.return_error('not enough arguments')
 
     mgmt_json_no_sid = json.loads(mgmt_json_no_sid)
