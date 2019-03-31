@@ -276,7 +276,7 @@ class DAL(with_metaclass(MetaDAL, Serializable, BasicStorage)):
             elif db_uid in THREAD_LOCAL._pydal_db_instances_zombie_:
                 db = THREAD_LOCAL._pydal_db_instances_zombie_[db_uid]
             else:
-                db = super(DAL, cls).__new__(cls, )
+                db = super(DAL, cls).__new__(cls)
                 THREAD_LOCAL._pydal_db_instances_zombie_[db_uid] = db
         else:
             db_uid = kwargs.get('db_uid', hashlib_md5(repr(uri)).hexdigest())
@@ -284,7 +284,7 @@ class DAL(with_metaclass(MetaDAL, Serializable, BasicStorage)):
                 db = THREAD_LOCAL._pydal_db_instances_zombie_[db_uid]
                 del THREAD_LOCAL._pydal_db_instances_zombie_[db_uid]
             else:
-                db = super(DAL, cls).__new__(cls, )
+                db = super(DAL, cls).__new__(cls)
             db_group = THREAD_LOCAL._pydal_db_instances_.get(db_uid, [])
             db_group.append(db)
             THREAD_LOCAL._pydal_db_instances_[db_uid] = db_group
@@ -676,7 +676,7 @@ class DAL(with_metaclass(MetaDAL, Serializable, BasicStorage)):
         if key[:1] != '_' and key in self:
             raise SyntaxError(
                 'Object %s exists and cannot be redefined' % key)
-        return super(DAL, self).__setattr__(key, )
+        return super(DAL, self).__setattr__(key, value)
 
     def __repr__(self):
         if hasattr(self, '_uri'):

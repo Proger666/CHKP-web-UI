@@ -33,7 +33,7 @@ if not request.env.web2py_runtime_gae:
     db = DAL(configuration.get('db.uri'),
              pool_size=configuration.get('db.pool_size'),
              migrate_enabled=configuration.get('db.migrate'),
-             check_reserved=['all'])
+             lazy_tables=True)
 else:
     # ---------------------------------------------------------------------
     # connect to Google BigTable (optional 'google:datastore://namespace')
@@ -84,6 +84,11 @@ response.form_label_separator = ''
 # - old style crud actions
 # (more options discussed in gluon/tools.py)
 # -------------------------------------------------------------------------
+### Logging
+import logging
+logger = logging.getLogger('web2py.app.CHKP_WEB_UI')
+logger.setLevel(logging.DEBUG)
+
 
 # host names must be a list of allowed host names (glob syntax allowed)
 auth = Auth(db, host_names=configuration.get('host.names'))
@@ -92,7 +97,7 @@ auth = Auth(db, host_names=configuration.get('host.names'))
 # create all tables needed by auth, maybe add a list of extra fields
 # -------------------------------------------------------------------------
 auth.settings.extra_fields['auth_user'] = []
-auth.define_tables(username=False, signature=False)
+auth.define_tables(username=True, signature=False)
 
 # -------------------------------------------------------------------------
 # configure email
@@ -111,6 +116,10 @@ auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
 auth.settings.register_verify_password = False
+
+# custom not authorized page
+auth.settings.on_failed_authorization = 'req_priv'
+
 db.auth_user.first_name.writable = False
 db.auth_user.last_name.writable = False
 # -------------------------------------------------------------------------  

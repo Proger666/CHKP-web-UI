@@ -107,7 +107,6 @@
 'Email verification': 'Email verification',
 'Email verified': 'Email verified',
 'enter an integer between %(min)g and %(max)g': 'enter an integer between %(min)g and %(max)g',
-'Enter an integer between %(min)g and %(max)g': 'Enter an integer between %(min)g and %(max)g',
 'Errors': 'Errors',
 'export as csv file': 'экспорт в  csv-файл',
 'FAQ': 'FAQ',

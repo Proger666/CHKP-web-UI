@@ -13,7 +13,12 @@ def show_gateways(mgmt_json):  # Feed it with json contains mgmt_ip , mgmt_port,
     # As a result you will get json with gateways or json with 'error' and description
 
 
-def get_sid(mgmt_json_no_sid):  # Feed it with json contains mgmt_ip , mgmt_port, user and password.
+def get_sid(mgmt_json_no_sid):
+    """Feed it with json contains mgmt_ip , mgmt_port, user and password, empty SID
+    :param mgmt_json_no_sid: mgmt_ip, mgmt_port, user, password
+    """
+    # TODO: remove SID requirements, redesing - make error on error not exception
+
     if not pars.check_if_data_exist(mgmt_json_no_sid, 'mgmt_ip', 'mgmt_port', 'username', 'password', 'sid'):
         return pars.return_error('not enough arguments')
 

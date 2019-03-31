@@ -255,7 +255,6 @@
 'Enable': 'Enable',
 'Enable Close-Tag': 'Enable Close-Tag',
 'Enable Code Folding': 'Enable Code Folding',
-'Enter only letters, numbers, and underscore': 'Enter only letters, numbers, and underscore',
 'Enterprise Web Framework': 'Enterprise Web Framework',
 'Error': 'Error',
 'Error logs for "%(app)s"': 'Журнал ошибок для "%(app)s"',

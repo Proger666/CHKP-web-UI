@@ -77,6 +77,7 @@ def check_if_data_exist(data, *args):
     if type(data) == str:
         data = json.loads(data)
 
+    #TODO: redesign, what if SID = '' ?
     for arg in args:
         if data.get(arg) != '' and data.get(arg) is not None:
             continue
