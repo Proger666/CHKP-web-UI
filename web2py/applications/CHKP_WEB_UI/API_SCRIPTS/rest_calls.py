@@ -14,50 +14,49 @@ def show_gateways(mgmt_json):  # Feed it with json contains mgmt_ip , mgmt_port,
 
 
 def get_sid(mgmt_json_no_sid):
-    """Feed it with json contains mgmt_ip , mgmt_port, user and password, empty SID
+    """Feed it with json contains mgmt_ip , mgmt_port, user and password
     :param mgmt_json_no_sid: mgmt_ip, mgmt_port, user, password
     """
-    # TODO: remove SID requirements, redesing - make error on error not exception
 
-    if not pars.check_if_data_exist(mgmt_json_no_sid, 'mgmt_ip', 'mgmt_port', 'username', 'password', 'sid'):
+    if not pars.check_if_data_exist(mgmt_json_no_sid, 'mgmt_ip', 'mgmt_port', 'username', 'password'):
         return pars.return_error('not enough arguments')
 
     mgmt_json_no_sid = json.loads(mgmt_json_no_sid)
     mgmt_json_no_sid['sid'] = ''
     result = bc.login(mgmt_json_no_sid, mgmt_json_no_sid['username'], mgmt_json_no_sid['password'])
-    return pars.check_result(result, json.dumps, get_sid='')
+    return pars.check_result(result, json.dumps)
     # As a result you will get json with sid or json with 'error' and description
 
 
 
-def main():
-    management_ip = '172.16.198.129'
-    management_port = '443'
-    sid = ''
-    username = 'admin'
-    secret = '123qweASD'
-    management_data = {'mgmt_ip': management_ip, 'mgmt_port': management_port, 'sid': ''}
-    mgmt_json = json.dumps({'mgmt_ip': management_ip, 'mgmt_port': management_port, 'sid': sid, 'username': username,
-                            'password': secret})
-
-    login_result = json.loads(get_sid(mgmt_json))
-
-    try:
-        management_data['sid'] = login_result['sid']
-    except KeyError:
-        print(login_result)
-        sys.exit(0)
-    print("Logged in")
-
-    show = bc.get_access_rulebase(management_data)
-    print(show)
-    #print(show_gateways(json.dumps(management_data)))
-    #gws = json.loads(show_gateways(management_data))
-    #print(gws)
-
-    print(bc.logout(management_data))
-
-    return 0
+# def main():
+#     management_ip = '172.16.198.129'
+#     management_port = '443'
+#     #sid = ''
+#     username = 'admin'
+#     secret = '123qweASD'
+#     management_data = {'mgmt_ip': management_ip, 'mgmt_port': management_port, 'sid': ''}
+#     mgmt_json = json.dumps({'mgmt_ip': management_ip, 'mgmt_port': management_port, 'username': username,
+#                             'password': secret})
+#
+#     login_result = json.loads(get_sid(mgmt_json))
+#
+#     try:
+#         management_data['sid'] = login_result['sid']
+#     except KeyError:
+#         print(login_result)
+#         sys.exit(0)
+#     print("Logged in")
+#
+#     show = bc.get_access_layers(management_data)
+#     print(show)
+#     #print(show_gateways(json.dumps(management_data)))
+#     #gws = json.loads(show_gateways(management_data))
+#     #print(gws)
+#
+#     print(bc.logout(management_data))
+#
+#     return 0
 
 
 if __name__ == '__main__':

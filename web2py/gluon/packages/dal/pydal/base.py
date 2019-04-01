@@ -488,7 +488,7 @@ class DAL(with_metaclass(MetaDAL, Serializable, BasicStorage)):
             from .contrib.reserved_sql_keywords import ADAPTERS as RSK
             self.RSK = RSK
         self._migrate = migrate
-        self._fake_migrate = fake_migrate
+        self._fake_migrate = True
         self._migrate_enabled = migrate_enabled
         self._fake_migrate_all = fake_migrate_all
         if self.serializers is not None:
