@@ -18,7 +18,6 @@ def mgmt_conn(mgmt_data):
            'sid': '1'}
     logger.debug('Created DTO for mgmt connection {}'.format(DTO))
     data = json.dumps(DTO)
-    result = None
     try:
         result = json.loads(get_sid(data))
         if 'error' in result:
